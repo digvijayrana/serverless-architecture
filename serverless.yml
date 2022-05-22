@@ -1,17 +1,23 @@
-service: serverlessauth
+service: serverless-auth
 
 frameworkVersion: '3'
 plugins:
-       - serverless-offline
+   - serverless-offline
+   - serverless-prune-plugin
+custom:
+  common: ${file(config/env/${env:ENV}/common.yml)}
+  variables:  ${ssm:/aws/reference/secretsmanager/${env:ENV}-${self:service}, file(config/env/${env:ENV}/common.yml)}
 provider:
   name: aws
   runtime: nodejs14.x
   stage: local
   region: ap-south-1
 functions:
-  hello:
-    handler: src/handlers/handler.user
-    event:
-      - http: 
-         path: /getInfo
-         method: get
+  sendOtp:
+    name: ${self:service}-${self:provider.stage}-users
+    handler: src/handlers/user/handler.user
+    timeout: 60
+    events:
+      - http:
+          method: post
+          path: /create-Users
