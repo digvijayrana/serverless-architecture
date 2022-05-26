@@ -1,5 +1,4 @@
 const { connect: mongooseConnect } = require('mongoose')
-
 class Mongoose {
   constructor () {
     this.options = {
