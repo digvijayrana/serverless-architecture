@@ -2,4 +2,8 @@ STAGE: local
 CLOUD_REGION: ap-south-1
 LAMBDA_VERSIONING_COUNT: 3
 MAXIMUM_MEMORY: 256
+<<<<<<< HEAD
 MONGO_URL: mongodb+srv://digvijaygaur:ydIdU7aXCwnWpglD@cluster0.guash.mongodb.net/slsauth?authSource=admin&replicaSet=atlas-vsho68-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true
+=======
+MONGO_URL: 
+>>>>>>> c82b59150f0ced342fbaf5c68589c1e4e0954f27
