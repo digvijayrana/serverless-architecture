@@ -7,7 +7,7 @@
     "deploy": "serverless deploy",
     "deploy:staging": "cross-env ENV=staging serverless deploy",
     "deploy:production": "cross-env ENV=production serverless deploy",
-    "deploy:local": "cross-env ENV=local sls offline"
+    "deploy:local": "cross-env ENV=local serverless offline"
   },
   "author": "",
   "license": "ISC",

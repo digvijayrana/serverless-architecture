@@ -27,7 +27,11 @@ custom:
     dsn: ${self:custom.variables.SENTRY_URL, 0}
     captureTimeoutWarnings: false
 plugins:
-       - serverless-offline
+   - serverless-offline
+   - serverless-prune-plugin
+custom:
+  common: ${file(config/env/${env:ENV}/common.yml)}
+  variables:  ${ssm:/aws/reference/secretsmanager/${env:ENV}-${self:service}, file(config/env/${env:ENV}/common.yml)}
 provider:
   name: aws
   endpointType: regional

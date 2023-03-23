@@ -1,4 +1,3 @@
-const aws = require('aws-sdk')
+let AWS = require('aws-sdk')
 
-module.exports = aws
-
+module.exports = AWS
