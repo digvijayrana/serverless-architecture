@@ -1,12 +1,14 @@
 'use strict';
 const Mongoose = require('../services/mongodb')
+const {mapToJsonResponse} = require('../helpers/general')
 
-const user = (event, context, callback) => {
-  const mongoose = await Mongoose()
-  await mongoose.connect()
-
-  const users = JSON.parse(event.body)
-  console.log(users)
+const user = async (event, context, callback) => {
+  try {
+    return mapToJsonResponse(200, { message: 'Data accepted successfully' }, 1)
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
 
 }
 

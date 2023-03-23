@@ -1,17 +1,53 @@
-service: serverlessauth
-
+service: serverless-auth
 frameworkVersion: '3'
+
+custom:
+  common: ${file(config/env/${env:ENV}/common.yml)}
+  # variables: ${file(config/env/${env:ENV}/secrets.yml)}
+  # common_creds: ${ssm:/aws/reference/secretsmanager/${env:ENV}-common-creds}
+  serverless-offline:
+    apiKey: 'key'
+  prune:
+    automatic: true
+    number: ${self:custom.common.LAMBDA_VERSIONING_COUNT}
+  customDomain:
+    domainName: ${self:custom.common.DOMAIN_NAME}
+    stage: ${self:custom.common.STAGE}
+    basePath: 'cbs'
+    certificateName: ${self:custom.common.DOMAIN_NAME}
+    createRoute53Record: false
+    createRoute53IPv6Record: false
+    endpointType: 'regional'
+    securityPolicy: tls_1_2
+    apiType: rest
+    autoDomain: true
+    preserveExternalPathMappings: true
+    enabled: ${self:custom.common.ENABLE_DOMAIN}
+  sentry:
+    dsn: ${self:custom.variables.SENTRY_URL, 0}
+    captureTimeoutWarnings: false
 plugins:
        - serverless-offline
 provider:
   name: aws
-  runtime: nodejs14.x
-  stage: local
-  region: ap-south-1
+  endpointType: regional
+  runtime: nodejs12.x
+  memorySize: ${self:custom.common.MAXIMUM_MEMORY}
+  lambdaHashingVersion: 20201221
+  stage: ${self:custom.common.STAGE}
+  region: ${self:custom.common.CLOUD_REGION}
+  environment:
+    NODE_ENV: ${self:custom.common.STAGE}
+    CLOUD_REGION: ${self:custom.common.CLOUD_REGION}
+    MONGO_URL: ${self:custom.common.MONGO_URL}
+    MAX_POOL_SIZE: ${self:custom.common.MAX_POOL_SIZE}
+    SERVICE_NAME: ${self:service}-${self:provider.stage}
+      
 functions:
-  hello:
+  userInfo:
+    name: ${self:service}-${self:provider.stage}-user-info
     handler: src/handlers/handler.user
-    event:
+    events:
       - http: 
          path: /getInfo
          method: get

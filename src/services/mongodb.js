@@ -14,6 +14,7 @@ class Mongoose {
         new Promise(async (resolve, reject) => {
             // const ssm = new SSM()
             let MONGO_URL = process.env.MONGO_URL
+            console.log("MONGO_URL",MONGO_URL)
             resolve(mongooseConnect(MONGO_URL, { ...this.options })
                 .catch((error) => {
                     console.log('DB:', error)
